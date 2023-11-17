@@ -1,0 +1,19 @@
+---
+# tasks file for monit
+- name: Install Monit
+  apt:
+    name: monit
+    state: present
+
+- name: Configure Monit
+  template:
+    src: haproxy_monit_config.j2
+    dest: /etc/monit/conf.d/haproxy
+    owner: root
+    group: root
+    mode: '0644'
+    
+- name: Restart monit service
+  service:
+    name: monit
+    state: restarted

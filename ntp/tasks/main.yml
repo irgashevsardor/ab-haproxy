@@ -1,0 +1,21 @@
+---
+- name: Install ntp
+  apt:
+    name: ntp
+    state: present
+
+- name: Synchronize time
+  command: ntpdate pool.ntp.org
+
+- name: Start NTP service
+  service:
+    name: ntp
+    state: started
+    enabled: yes
+
+- name: Set up time sync via cron
+  cron:
+    name: "Sync time daily"
+    minute: 0
+    hour: 1
+    job: "/usr/sbin/ntpdate pool.ntp.org"
